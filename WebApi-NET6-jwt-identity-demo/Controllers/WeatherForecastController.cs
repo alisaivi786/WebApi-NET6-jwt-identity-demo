@@ -10,8 +10,8 @@ namespace WebApi_NET6_jwt_identity_demo.Controllers
     {
         private static readonly string[] Summaries = new[]
         {
-        "Freezing", "Bracing", "Chilly", "Cool", "Mild", "Warm", "Balmy", "Hot", "Sweltering", "Scorching"
-    };
+            "Freezing", "Bracing", "Chilly", "Cool", "Mild", "Warm", "Balmy", "Hot", "Sweltering", "Scorching"
+        };
 
         private readonly ILogger<WeatherForecastController> _logger;
 
@@ -20,6 +20,7 @@ namespace WebApi_NET6_jwt_identity_demo.Controllers
             _logger = logger;
         }
 
+        [Authorize(Roles = "ABC")]
         [HttpGet(Name = "GetWeatherForecast")]
         public IEnumerable<WeatherForecast> Get()
         {

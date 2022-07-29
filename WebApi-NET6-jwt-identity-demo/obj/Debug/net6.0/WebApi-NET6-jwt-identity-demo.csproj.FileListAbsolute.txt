@@ -67,5 +67,3 @@ D:\Data\Projects\Source\Repo\dev.alisaivi\WebApi-NET6-jwt-identity-demo\WebApi-N
 D:\Data\Projects\Source\Repo\dev.alisaivi\WebApi-NET6-jwt-identity-demo\WebApi-NET6-jwt-identity-demo\obj\Debug\net6.0\ref\WebApi-NET6-jwt-identity-demo.dll
 D:\Data\Projects\Source\Repo\dev.alisaivi\WebApi-NET6-jwt-identity-demo\WebApi-NET6-jwt-identity-demo\bin\Debug\net6.0\DocumentFormat.OpenXml.dll
 D:\Data\Projects\Source\Repo\dev.alisaivi\WebApi-NET6-jwt-identity-demo\WebApi-NET6-jwt-identity-demo\bin\Debug\net6.0\System.IO.Packaging.dll
-D:\Data\Projects\Source\Repo\dev.alisaivi\WebApi-NET6-jwt-identity-demo\WebApi-NET6-jwt-identity-demo\bin\Debug\net6.0\WebApi-NET6-jwt-identity-demo.xml
-D:\Data\Projects\Source\Repo\dev.alisaivi\WebApi-NET6-jwt-identity-demo\WebApi-NET6-jwt-identity-demo\obj\Debug\net6.0\WebApi-NET6-jwt-identity-demo.xml
