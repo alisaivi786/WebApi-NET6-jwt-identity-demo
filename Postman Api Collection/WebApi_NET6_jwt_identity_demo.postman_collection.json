@@ -1,0 +1,99 @@
+{
+	"info": {
+		"_postman_id": "eaaf00bc-3dba-41ae-a55e-5793d5cf7bb5",
+		"name": "WebApi_NET6_jwt_identity_demo",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "11573287"
+	},
+	"item": [
+		{
+			"name": "WeatherForecast",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1lIjoiYWRtaW4iLCJqdGkiOiI4NGZkMTdmYS0yZWZjLTRhM2MtYmY2ZC0xZDliMDg1YTQ3ZmUiLCJleHAiOjE2NTkxMTkxNTcsImlzcyI6Imh0dHA6Ly9sb2NhbGhvc3Q6NzEyMCIsImF1ZCI6Imh0dHA6Ly9sb2NhbGhvc3Q6NzEyMCJ9.k_LrszLQuZ3tDE2x-3FeLB27lywzNk9gIAgGYHhU5rw",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://localhost:7120/WeatherForecast",
+					"protocol": "https",
+					"host": [
+						"localhost"
+					],
+					"port": "7120",
+					"path": [
+						"WeatherForecast"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "login",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"username\": \"admin\",\r\n  \"password\": \"Recovery%8531\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://localhost:7120/api/Authenticate/login",
+					"protocol": "https",
+					"host": [
+						"localhost"
+					],
+					"port": "7120",
+					"path": [
+						"api",
+						"Authenticate",
+						"login"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "register",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"username\": \"admin\",\r\n  \"email\": \"admin@admin.com\",\r\n  \"password\": \"Recovery%8531\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://localhost:7120/api/Authenticate/register",
+					"protocol": "https",
+					"host": [
+						"localhost"
+					],
+					"port": "7120",
+					"path": [
+						"api",
+						"Authenticate",
+						"register"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}

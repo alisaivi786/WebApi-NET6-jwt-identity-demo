@@ -1,0 +1,11 @@
+{
+  "Version": 1,
+  "Hash": "ZpH3UtV9kBXpJU1YVJci4xDZojaBptk/PTFnbG9g7wc=",
+  "Source": "WebApi-NET6-jwt-identity-demo",
+  "BasePath": "_content/WebApi-NET6-jwt-identity-demo",
+  "Mode": "Default",
+  "ManifestType": "Build",
+  "ReferencedProjectsConfiguration": [],
+  "DiscoveryPatterns": [],
+  "Assets": []
+}
