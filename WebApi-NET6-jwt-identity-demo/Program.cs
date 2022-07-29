@@ -4,9 +4,6 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
-using System.Reflection;
-
-using DocumentFormat.OpenXml.EMMA;
 using Microsoft.OpenApi.Models;
 
 var builder = WebApplication.CreateBuilder(args);
