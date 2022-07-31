@@ -5,6 +5,10 @@ using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
+using System.Security.Cryptography;
+using WebApi_NET6_jwt_identity_demo.Infrastructure.Model;
+using WebApi_NET6_jwt_identity_demo.Infrastructure.Repository.IServices;
+using WebApi_NET6_jwt_identity_demo.Infrastructure.Entities;
 
 namespace WebApi_NET6_jwt_identity_demo.Controllers
 {
@@ -15,15 +19,18 @@ namespace WebApi_NET6_jwt_identity_demo.Controllers
         private readonly UserManager<IdentityUser> _userManager;
         private readonly RoleManager<IdentityRole> _roleManager;
         private readonly IConfiguration _configuration;
-
+        private readonly IUserServices _userServices;
         public AuthenticateController(
             UserManager<IdentityUser> userManager,
             RoleManager<IdentityRole> roleManager,
-            IConfiguration configuration)
+            IConfiguration configuration,
+            IUserServices userServices
+            )
         {
             _userManager = userManager;
             _roleManager = roleManager;
             _configuration = configuration;
+            _userServices = userServices;
         }
 
         [HttpPost]
@@ -47,6 +54,9 @@ namespace WebApi_NET6_jwt_identity_demo.Controllers
                 }
 
                 var token = GetToken(authClaims);
+                var refreshToken = GenerateRefreshToken();
+                refreshToken.UserName = user.UserName;
+                SetRefreshToken(refreshToken);
 
                 return Ok(new
                 {
@@ -56,7 +66,89 @@ namespace WebApi_NET6_jwt_identity_demo.Controllers
             }
             return Unauthorized();
         }
+        [HttpPost("refresh-token")]
+        public async Task<ActionResult<string>> RefreshToken()
+        {
+            var refreshToken = Request.Cookies["refreshToken"];
+            if(refreshToken != null)
+            {
+                var res = _userServices.GetRefreshToken(refreshToken);
 
+                if (res != null && res.Token != null)
+                {
+                    if (!res.Token.Equals(refreshToken))
+                    {
+                        return Unauthorized("Invalid Refresh Token.");
+                    }
+                    else if (res.Expires < DateTime.Now)
+                    {
+                        return Unauthorized("Token expired.");
+                    }
+
+                    var user = await _userManager.FindByNameAsync(res.UserName);
+                    if (user != null)
+                    {
+                        var userRoles = await _userManager.GetRolesAsync(user);
+
+                        var authClaims = new List<Claim>
+                    {
+                        new Claim(ClaimTypes.Name, user.UserName),
+                        new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
+                    };
+
+                        foreach (var userRole in userRoles)
+                        {
+                            authClaims.Add(new Claim(ClaimTypes.Role, userRole));
+                        }
+
+                        var token = GetToken(authClaims);
+
+                        return Ok(new
+                        {
+                            token = new JwtSecurityTokenHandler().WriteToken(token),
+                            expiration = token.ValidTo
+                        });
+                    }
+                }
+            }
+            
+            return Unauthorized("Token expired.");
+
+        }
+
+        private RefreshTokenModel GenerateRefreshToken()
+        {
+            var refreshToken = new RefreshTokenModel
+            {
+                Token = Convert.ToBase64String(RandomNumberGenerator.GetBytes(64)),
+                Expires = DateTime.Now.AddDays(7),
+                Created = DateTime.Now
+            };
+
+            return refreshToken;
+        }
+
+        private void SetRefreshToken(RefreshTokenModel newRefreshToken)
+        {
+            var cookieOptions = new CookieOptions
+            {
+                HttpOnly = true,
+                Expires = newRefreshToken.Expires
+            };
+            if(newRefreshToken.Token != null)
+            {
+                Response.Cookies.Append("refreshToken", newRefreshToken.Token, cookieOptions);
+
+                var res = new RefreshToken
+                {
+                    Token = newRefreshToken.Token,
+                    Expires = DateTime.Now.AddDays(7),
+                    Created = DateTime.Now,
+                    UserName = newRefreshToken.UserName,
+                };
+                var result = _userServices.CreateRefreshToken(res);
+            }
+        }
         [HttpPost]
         [Route("register")]
         public async Task<IActionResult> Register([FromBody] RegisterModel model)
